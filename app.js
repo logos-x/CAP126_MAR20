@@ -27,8 +27,8 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/roles', rolesRouter);
 app.use('/auth', require('./routes/auth'));
-// app.use('/products', require('./routes/products'));
-// app.use('/categories', require('./routes/categories'));
+app.use('/products', require('./routes/products'));
+app.use('/categories', require('./routes/categories'));
 
 mongoose.connect('mongodb://localhost:27017/Mar13th');
 mongoose.connection.on('connected', function () {

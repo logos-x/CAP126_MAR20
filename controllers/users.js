@@ -4,10 +4,10 @@ let bcrypt = require('bcrypt')
 
 module.exports = {
     GetAllUser: async () => {
-        return await userSchema.find();
+        return await userSchema.find().populate('role');
     },
     GetUserById: async (id) => {
-        return await userSchema.findById(id);
+        return await userSchema.findById(id).populate('role');
     },
     CreateAnUser: async (username, password, email, role) => {
         let GetRole = await roleController.GetRoleByName(role);
