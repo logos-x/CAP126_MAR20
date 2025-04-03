@@ -1,4 +1,5 @@
 let categorySchema = require('../schema/category');
+const createSlug = require('../helpers/slugHelper');
 
 module.exports = {
     GetAllCategory: async () => {
@@ -13,8 +14,10 @@ module.exports = {
         });
     },
     CreateCategory: async (name, description) => {
+        let slug = createSlug(name);
         newCategory = new categorySchema({
             name: name,
+            slug: slug,
             description: description
         })
         return await newCategory.save();
@@ -28,6 +31,9 @@ module.exports = {
                     category[key] = body[key]
                 }
             }
+            if (body.name) {
+                category.slug = createSlug(body.name);
+            }
             return await category.save();
         }
     },
@@ -37,5 +43,8 @@ module.exports = {
             category.isDelete = true;
             return await category.save();
         }
-    }
+    },
+    GetCategoryBySlug: async (slug) => {
+        return await categorySchema.findOne({ slug: slug });
+    },
 }

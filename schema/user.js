@@ -43,7 +43,9 @@ let userSchema = new mongoose.Schema({
     isDelete: { 
         type: Boolean, 
         default: false 
-    }
+    },
+    tokenResetPassword:String,
+    tokenResetPasswordExp:Date
 }, {
     timestamps: true
 })

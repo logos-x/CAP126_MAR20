@@ -1,5 +1,6 @@
 let productSchema = require('../schema/product');
 let categoryController = require('../controllers/categories');
+const createSlug = require('../helpers/slugHelper');
 
 module.exports = {
     GetAllProduct: async () => {
@@ -10,11 +11,13 @@ module.exports = {
     },
     CreateProduct: async (name, price, quantity, category) => {
         let GetCategory = await categoryController.GetCategoryByName(category);
+        let slug = createSlug(name);
         if (GetCategory) {
             newProduct = new productSchema({
                 name: name,
                 price: price,
                 quantity: quantity,
+                slug: slug,
                 category: GetCategory._id
             })
             return await newProduct.save();
@@ -31,6 +34,9 @@ module.exports = {
                     product[key] = body[key]
                 }
             }
+            if (body.name) {
+                product.slug = createSlug(body.name);
+            }
             return await product.save();
         }
     },
@@ -40,5 +46,14 @@ module.exports = {
             product.isDelete = true;
             return await product.save();
         }
-    }
+    },
+    GetAllProductByCategorySlug: async function (slug){
+        let category = await categoryController.GetCategoryBySlug(slug);
+        if (category) {
+            return await productSchema.find({ category: category._id }).populate('category');
+        }
+    },
+    GetProductBySlug: async function (slug) {
+        return await productSchema.findOne({ slug: slug }).populate('category');
+    },
 }

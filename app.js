@@ -11,6 +11,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var rolesRouter = require('./routes/roles');
 
+
 var app = express();
 
 // view engine setup
@@ -29,6 +30,7 @@ app.use('/roles', rolesRouter);
 app.use('/auth', require('./routes/auth'));
 app.use('/products', require('./routes/products'));
 app.use('/categories', require('./routes/categories'));
+app.use('/slug', require('./routes/slug'));
 
 mongoose.connect('mongodb://localhost:27017/Mar13th');
 mongoose.connection.on('connected', function () {

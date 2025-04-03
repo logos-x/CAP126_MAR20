@@ -9,6 +9,16 @@ module.exports = {
     GetUserById: async (id) => {
         return await userSchema.findById(id).populate('role');
     },
+    GetUserByEmail: async (email) => {
+        return await userSchema.findOne({
+            email: email
+        }).populate('role');
+    },
+    GetUserByToken: async (token) => {
+        return await userSchema.findOne({
+            tokenResetPassword: token
+        }).populate('role');
+    },
     CreateAnUser: async (username, password, email, role) => {
         let GetRole = await roleController.GetRoleByName(role);
         if (GetRole) {

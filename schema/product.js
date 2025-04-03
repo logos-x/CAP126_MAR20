@@ -25,6 +25,10 @@ let productSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
+    slug: {
+        type: String,
+        unique: true
+    },
     isDelete: { type: Boolean, default: false }
 }, {
     timestamps: true

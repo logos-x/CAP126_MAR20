@@ -14,6 +14,10 @@ let categorySchema = new mongoose.Schema({
         type: Boolean, 
         default: false 
     },
+    slug: {
+        type: String,
+        unique: true
+    }
 }, {
     timestamps: true
 });
